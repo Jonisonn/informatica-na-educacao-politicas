@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conexões e Contradições</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+Pro:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-display {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    
+    .font-body {
+      font-family: 'Source Sans Pro', Arial, sans-serif;
+    }
+    
+    .slide-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100%;
+    }
+    
+    .slide {
+      scroll-snap-align: start;
+      min-height: 100%;
+      position: relative;
+    }
+    
+    .decade-badge {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    }
+    
+    .concept-box {
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    .timeline-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.2);
+    }
+    
+    .nav-dot {
+      transition: all 0.3s ease;
+    }
+    
+    .nav-dot.active {
+      transform: scale(1.3);
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .animate-fade-in {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    
+    .animate-delay-1 { animation-delay: 0.2s; opacity: 0; }
+    .animate-delay-2 { animation-delay: 0.4s; opacity: 0; }
+    .animate-delay-3 { animation-delay: 0.6s; opacity: 0; }
+    
+    .glitch-text {
+      position: relative;
+    }
+    
+    .retro-screen {
+      background: #0a1a0a;
+      border: 3px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+    }
+    
+    .modern-tablet {
+      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: 16px;
+      padding: 8px;
+      border: 2px solid #0f3460;
+    }
+    
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--accent-color);
+      z-index: 100;
+      transition: width 0.3s ease;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full font-body">
+  <div class="progress-bar" id="progressBar" style="width: 0%"></div><!-- Navigation Dots -->
+  <nav class="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 hidden md:flex flex-col gap-3" id="navDots"><button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="0" title="Capa"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="1" title="Introdução"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="2" title="1980s"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="3" title="1990s"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="4" title="2000s"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="5" title="2010s"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="6" title="2020s"></button> <button class="nav-dot w-3 h-3 rounded-full border-2 transition-all" data-slide="7" title="Conclusão"></button>
+  </nav>
+  <div class="slide-container" id="slideContainer"><!-- Slide 1: Cover -->
+   <section class="slide flex items-center justify-center p-6 md:p-12" id="slide-0" data-bg="cover">
+    <div class="max-w-5xl mx-auto text-center">
+     <div class="flex justify-center gap-4 md:gap-8 mb-8 md:mb-12"><!-- Retro Computer -->
+      <div class="retro-screen w-32 h-24 md:w-48 md:h-36 flex items-center justify-center text-xs md:text-sm animate-fade-in">
+       <div>
+        <div>
+         &gt; EDUCOM_
+        </div>
+        <div class="animate-pulse">
+         █
+        </div>
+       </div>
+      </div><!-- Modern Tablet -->
+      <div class="modern-tablet w-32 h-24 md:w-48 md:h-36 flex items-center justify-center animate-fade-in animate-delay-1">
+       <div class="text-center">
+        <svg class="w-8 h-8 md:w-12 md:h-12 mx-auto text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        <div class="text-purple-300 text-xs mt-1">
+         IA
+        </div>
+       </div>
+      </div>
+     </div>
+     <h1 class="font-display text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 leading-tight animate-fade-in animate-delay-2" id="mainTitle">Política Educacional e Tecnologias</h1>
+     <h2 class="text-xl md:text-2xl lg:text-3xl mb-6 md:mb-8 opacity-80 animate-fade-in animate-delay-2" id="subtitle">Uma Linha do Tempo Crítica: Da Soberania Nacional à Plataformização (1980-2025)</h2>
+     <div class="inline-block px-6 py-3 rounded-full text-sm md:text-base animate-fade-in animate-delay-3" id="authorBadge"><span id="authorName">Jónison A. dos Santos</span> <span class="opacity-60 mx-2">|</span> <span class="opacity-80">Mestrado Profissional em Informática na Educação</span>
+     </div>
+     <div class="mt-8 md:mt-12 animate-fade-in animate-delay-3">
+      <svg class="w-6 h-6 mx-auto animate-bounce opacity-60" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+      <p class="text-sm opacity-60 mt-2">Role para continuar</p>
+     </div>
+    </div>
+   </section><!-- Slide 2: Introduction -->
+   <section class="slide flex items-center justify-center p-6 md:p-12" id="slide-1" data-bg="intro">
+    <div class="max-w-4xl mx-auto">
+     <div class="text-center mb-8 md:mb-12"><span class="inline-block px-4 py-1 rounded-full text-sm font-semibold mb-4" id="introLabel">A TESE</span>
+     </div>
+     <blockquote class="text-2xl md:text-3xl lg:text-4xl font-display text-center leading-relaxed mb-8 md:mb-12">
+      "A história da informática na educação no Brasil não é apenas sobre a evolução das máquinas, mas sobre a <span class="underline decoration-4 decoration-wavy" id="emphasisText">disputa da função social da escola</span>."
+     </blockquote>
+     <div class="concept-box p-6 rounded-r-lg max-w-2xl mx-auto" id="conceptBox1">
+      <p class="text-lg md:text-xl italic opacity-90">"Passamos do sonho da autonomia tecnológica para a realidade da dependência das grandes plataformas."</p>
+     </div>
+     <div class="mt-8 md:mt-12 p-6 rounded-lg" id="narrativeBox">
+      <div class="flex items-start gap-4">
+       <svg class="w-8 h-8 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" id="narrativeIcon"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+       </svg>
+       <p class="text-base md:text-lg opacity-80">Nesta apresentação, analisaremos como as políticas públicas de tecnologia transitaram do nacionalismo dos anos 80 para a lógica neoliberal de mercado, culminando na atual plataformização do ensino.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Slide 3: 1980s -->
+   <section class="slide flex items-center p-6 md:p-12" id="slide-2" data-bg="decade">
+    <div class="max-w-5xl mx-auto w-full">
+     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div>
+       <div class="decade-badge inline-block px-6 py-2 rounded-full text-white font-bold text-xl md:text-2xl mb-6">
+        1980
+       </div>
+       <h3 class="font-display text-3xl md:text-4xl mb-4" id="slide2Title">O Sonho da Soberania</h3>
+       <div class="space-y-4 mb-6">
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap" id="contextLabel1">Contexto:</span> <span class="opacity-80">Redemocratização e Reserva de Mercado</span>
+        </div>
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap" id="policyLabel1">Política:</span> <span class="opacity-80">Projeto EDUCOM (1984) e criação dos Centros Piloto</span>
+        </div>
+       </div>
+       <div class="concept-box p-4 rounded-r-lg mb-6" id="concept80s">
+        <h4 class="font-bold mb-2">Conceito-Chave: Soberania Nacional</h4>
+        <p class="text-sm opacity-80">O Estado buscava criar tecnologia brasileira, evitando a dependência externa.</p>
+       </div>
+       <ul class="space-y-2 text-sm md:text-base">
+        <li class="flex items-start gap-2"><span id="bullet1">→</span> <span>Informática como <strong>objeto de conhecimento</strong> (programação/Logo)</span></li>
+        <li class="flex items-start gap-2"><span id="bullet2">→</span> <span>Escola pública como <strong>laboratório de pesquisa</strong>, não apenas consumidora</span></li>
+       </ul>
+      </div>
+      <div class="flex justify-center">
+       <div class="retro-screen w-full max-w-sm h-64 p-6">
+        <div class="text-xs mb-2">
+        <img src="imagem1.jpg">
+        </div>
+        <div class="text-xs mt-4 text-center">
+        
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Slide 4: 1990s -->
+   <section class="slide flex items-center p-6 md:p-12" id="slide-3" data-bg="decade">
+    <div class="max-w-5xl mx-auto w-full">
+     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div class="order-2 md:order-1 flex justify-center">
+       <div class="relative">
+        <div class="grid grid-cols-3 gap-2 p-4 rounded-lg" id="labGrid"><!-- Simplified lab computers -->
+         <div class="w-16 h-16 rounded flex items-center justify-center" id="pc1">
+          <svg class="w-10 h-10" viewbox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5" /> <line x1="8" y1="21" x2="16" y2="21" stroke-width="1.5" /> <line x1="12" y1="17" x2="12" y2="21" stroke-width="1.5" />
+          </svg>
+         </div>
+         <div class="w-16 h-16 rounded flex items-center justify-center" id="pc2">
+          <svg class="w-10 h-10" viewbox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5" /> <line x1="8" y1="21" x2="16" y2="21" stroke-width="1.5" /> <line x1="12" y1="17" x2="12" y2="21" stroke-width="1.5" />
+          </svg>
+         </div>
+         <div class="w-16 h-16 rounded flex items-center justify-center" id="pc3">
+          <svg class="w-10 h-10" viewbox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5" /> <line x1="8" y1="21" x2="16" y2="21" stroke-width="1.5" /> <line x1="12" y1="17" x2="12" y2="21" stroke-width="1.5" />
+          </svg>
+         </div>
+         <div class="w-16 h-16 rounded flex items-center justify-center" id="pc4">
+          <svg class="w-10 h-10" viewbox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5" /> <line x1="8" y1="21" x2="16" y2="21" stroke-width="1.5" /> <line x1="12" y1="17" x2="12" y2="21" stroke-width="1.5" />
+          </svg>
+         </div>
+         <div class="w-16 h-16 rounded flex items-center justify-center" id="pc5">
+          <svg class="w-10 h-10" viewbox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5" /> <line x1="8" y1="21" x2="16" y2="21" stroke-width="1.5" /> <line x1="12" y1="17" x2="12" y2="21" stroke-width="1.5" />
+          </svg>
+         </div>
+         <div class="w-16 h-16 rounded flex items-center justify-center" id="pc6">
+          <svg class="w-10 h-10" viewbox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5" /> <line x1="8" y1="21" x2="16" y2="21" stroke-width="1.5" /> <line x1="12" y1="17" x2="12" y2="21" stroke-width="1.5" />
+          </svg>
+         </div>
+        </div>
+        <p class="text-center text-sm mt-4 opacity-60">Laboratório ProInfo - NTE</p>
+       </div>
+      </div>
+      <div class="order-1 md:order-2">
+       <div class="decade-badge inline-block px-6 py-2 rounded-full text-white font-bold text-xl md:text-2xl mb-6">
+        1990
+       </div>
+       <h3 class="font-display text-3xl md:text-4xl mb-4" id="slide3Title">A Virada Neoliberal</h3>
+       <div class="space-y-4 mb-6">
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Contexto:</span> <span class="opacity-80">Governo FHC, Globalização e Consenso de Washington</span>
+        </div>
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Política:</span> <span class="opacity-80">ProInfo (1997) e instalação dos NTEs</span>
+        </div>
+       </div>
+       <div class="concept-box p-4 rounded-r-lg mb-6" id="concept90s">
+        <h4 class="font-bold mb-2">Conceito-Chave: Reestruturação Produtiva</h4>
+        <p class="text-sm opacity-80">A educação passa a servir à qualificação de mão de obra para o mercado globalizado.</p>
+       </div>
+       <ul class="space-y-2 text-sm md:text-base">
+        <li class="flex items-start gap-2"><span id="bullet90-1">→</span> <span>Abertura comercial: entrada massiva de <strong>hardware importado</strong></span></li>
+        <li class="flex items-start gap-2"><span id="bullet90-2">→</span> <span>Modelo de "Laboratório fechado" <strong>segrega</strong> tecnologia da sala de aula</span></li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- Slide 5: 2000s -->
+   <section class="slide flex items-center p-6 md:p-12" id="slide-4" data-bg="decade">
+    <div class="max-w-5xl mx-auto w-full">
+     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div>
+       <div class="decade-badge inline-block px-6 py-2 rounded-full text-white font-bold text-xl md:text-2xl mb-6">
+        2000
+       </div>
+       <h3 class="font-display text-3xl md:text-4xl mb-4" id="slide4Title">Inclusão Digital na "Terceira Via"</h3>
+       <div class="space-y-4 mb-6">
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Contexto:</span> <span class="opacity-80">Governo Lula, expansão social e econômica</span>
+        </div>
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Política:</span> <span class="opacity-80">PROUCA (Um Computador por Aluno) e Banda Larga nas Escolas</span>
+        </div>
+       </div>
+       <div class="concept-box p-4 rounded-r-lg mb-6" id="concept2000s">
+        <h4 class="font-bold mb-2">Conceito-Chave: Terceira Via / Neodesenvolvimentismo</h4>
+        <p class="text-sm opacity-80">Tentativa de aliar dinamismo econômico com justiça social.</p>
+       </div>
+       <ul class="space-y-2 text-sm md:text-base">
+        <li class="flex items-start gap-2"><span id="bullet2000-1">→</span> <span><strong>"Fetichismo do hardware"</strong>: crença de que o dispositivo resolveria o déficit educacional</span></li>
+        <li class="flex items-start gap-2"><span id="bullet2000-2">→</span> <span>Inclusão digital como direito, mas <strong>infraestrutura escolar</strong> não acompanhou</span></li>
+       </ul>
+      </div>
+      <div class="flex justify-center">
+       <div class="relative"><!-- UCA Laptop representation -->
+        <div class="w-64 h-44 rounded-2xl p-2 relative" id="ucaLaptop" style="background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);">
+         <div class="w-full h-full bg-white rounded-lg flex items-center justify-center">
+          <div class="text-center">
+           <div class="text-4xl mb-2">
+            🎓
+           </div>
+           <div class="text-green-700 font-bold text-sm">
+            UCA
+           </div>
+           <div class="text-green-600 text-xs">
+            Um Computador por Aluno
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="w-72 h-4 rounded-b-lg mx-auto" style="background: linear-gradient(135deg, #65a30d 0%, #4d7c0f 100%);"></div>
+        <p class="text-center text-sm mt-4 opacity-60">O famoso "laptop verde" do PROUCA</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Slide 6: 2010s -->
+   <section class="slide flex items-center p-6 md:p-12" id="slide-5" data-bg="decade">
+    <div class="max-w-5xl mx-auto w-full">
+     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div class="order-2 md:order-1 flex justify-center">
+       <div class="relative"><!-- BNCC representation -->
+        <div class="w-64 p-6 rounded-xl shadow-2xl" id="bnccCard">
+         <div class="text-center mb-4">
+          <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3" id="bnccIcon"><span class="text-2xl font-bold">5</span>
+          </div>
+          <h4 class="font-bold">Competência Geral</h4>
+          <p class="text-sm opacity-80">Cultura Digital</p>
+         </div>
+         <div class="space-y-2 text-xs">
+          <div class="flex items-center gap-2"><span>✓</span> <span>Compreender tecnologias</span>
+          </div>
+          <div class="flex items-center gap-2"><span>✓</span> <span>Utilizar de forma crítica</span>
+          </div>
+          <div class="flex items-center gap-2"><span>✓</span> <span>Produzir informações</span>
+          </div>
+         </div>
+        </div>
+        <p class="text-center text-sm mt-4 opacity-60">BNCC - Base Nacional Comum Curricular</p>
+       </div>
+      </div>
+      <div class="order-1 md:order-2">
+       <div class="decade-badge inline-block px-6 py-2 rounded-full text-white font-bold text-xl md:text-2xl mb-6">
+        2010
+       </div>
+       <h3 class="font-display text-3xl md:text-4xl mb-4" id="slide5Title">A Normatização e a Cultura Digital</h3>
+       <div class="space-y-4 mb-6">
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Contexto:</span> <span class="opacity-80">Crise política, BNCC e Reforma do Ensino Médio</span>
+        </div>
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Política:</span> <span class="opacity-80">PIEC e BNCC (Competência 5)</span>
+        </div>
+       </div>
+       <div class="concept-box p-4 rounded-r-lg mb-6" id="concept2010s">
+        <h4 class="font-bold mb-2">Conceito-Chave: Padronização</h4>
+        <p class="text-sm opacity-80">A BNCC torna a "Cultura Digital" obrigatória, alinhando o Brasil às métricas internacionais (OCDE).</p>
+       </div>
+       <ul class="space-y-2 text-sm md:text-base">
+        <li class="flex items-start gap-2"><span id="bullet2010-1">→</span> <span>Avanço das <strong>fundações privadas</strong> (Lemann, Telefônica) na definição de políticas</span></li>
+        <li class="flex items-start gap-2"><span id="bullet2010-2">→</span> <span>Foco em <strong>gestão baseada em dados</strong></span></li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- Slide 7: 2020s -->
+   <section class="slide flex items-center p-6 md:p-12" id="slide-6" data-bg="decade">
+    <div class="max-w-5xl mx-auto w-full">
+     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div>
+       <div class="decade-badge inline-block px-6 py-2 rounded-full text-white font-bold text-xl md:text-2xl mb-6">
+        2020
+       </div>
+       <h3 class="font-display text-3xl md:text-4xl mb-4" id="slide6Title">Plataformização e IA</h3>
+       <div class="space-y-4 mb-6">
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Contexto:</span> <span class="opacity-80">Pós-Pandemia, Ensino Híbrido e Capitalismo de Vigilância</span>
+        </div>
+        <div class="flex items-start gap-3"><span class="font-bold whitespace-nowrap">Política:</span> <span class="opacity-80">Adoção massiva de Google/Microsoft e debates sobre Regulação de IA</span>
+        </div>
+       </div>
+       <div class="concept-box p-4 rounded-r-lg mb-6" id="concept2020s">
+        <h4 class="font-bold mb-2">Conceito-Chave: Plataformização</h4>
+        <p class="text-sm opacity-80">A infraestrutura da escola pública passa a residir em servidores privados estrangeiros.</p>
+       </div>
+       <ul class="space-y-2 text-sm md:text-base">
+        <li class="flex items-start gap-2"><span id="bullet2020-1">→</span> <span>A escola forma <strong>cidadãos críticos</strong> ou <strong>produtores de dados</strong>?</span></li>
+        <li class="flex items-start gap-2"><span id="bullet2020-2">→</span> <span>IA: risco da <strong>personalização excessiva</strong> e perda da dimensão coletiva</span></li>
+       </ul>
+      </div>
+      <div class="flex justify-center">
+       <div class="relative"><!-- Word Cloud representation -->
+        <div class="w-72 h-64 rounded-xl p-4 flex flex-wrap items-center justify-center gap-2" id="wordCloud"><span class="text-2xl font-bold" id="cloud1">IA</span> <span class="text-lg" id="cloud2">Big Data</span> <span class="text-xl font-semibold" id="cloud3">Google</span> <span class="text-base" id="cloud4">Privacidade</span> <span class="text-lg font-bold" id="cloud5">Algoritmos</span> <span class="text-sm" id="cloud6">Vigilância</span> <span class="text-xl" id="cloud7">Microsoft</span> <span class="text-base font-semibold" id="cloud8">Dados</span> <span class="text-lg" id="cloud9">Plataforma</span> <span class="text-sm" id="cloud10">LGPD</span> <span class="text-xl font-bold" id="cloud11">ChatGPT</span> <span class="text-base" id="cloud12">Híbrido</span>
+        </div>
+        <p class="text-center text-sm mt-4 opacity-60">Nuvem de conceitos da década</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Slide 8: Conclusion -->
+   <section class="slide flex items-center justify-center p-6 md:p-12" id="slide-7" data-bg="conclusion">
+    <div class="max-w-4xl mx-auto w-full text-center">
+     <div class="mb-8 md:mb-12"><span class="inline-block px-6 py-2 rounded-full text-sm font-semibold" id="conclusionLabel" style="background: var(--accent-color); color: white;">O FUTURO EM DISPUTA</span>
+     </div>
+     <h2 class="font-display text-3xl md:text-5xl lg:text-6xl mb-6 md:mb-8 leading-tight" id="conclusionTitle">Qual é a função da tecnologia na escola de hoje?</h2>
+     <div class="h-1 w-24 mx-auto mb-8 md:mb-10" id="divider" style="background: var(--accent-color);"></div>
+     <div class="space-y-6 md:space-y-8 mb-10 md:mb-14">
+      <div class="p-6 md:p-8 rounded-lg" id="summaryBox" style="background: var(--surface-color);">
+       <h3 class="font-bold text-lg md:text-xl mb-3" id="summaryLabel">Resumo Crítico</h3>
+       <p class="text-base md:text-lg opacity-90" id="summaryText">Saímos de uma política de <strong>produção de tecnologia</strong> (anos 80) para uma política de <strong>consumo de serviços</strong> (anos 2020).</p>
+      </div>
+      <div class="p-8 md:p-10 rounded-lg border-2" id="provocationBox" style="border-color: var(--secondary-color); background: rgba(99, 102, 241, 0.05);">
+       <p class="text-xl md:text-2xl lg:text-3xl font-display italic leading-relaxed" id="provocationText">"Para garantir a função social da educação, precisamos retomar a <strong>soberania digital</strong> ou aceitar a <strong>dependência tecnológica</strong>?"</p>
+      </div>
+     </div>
+     <div class="flex items-start gap-4 p-6 md:p-8 rounded-lg max-w-3xl mx-auto" id="narrativeBox2" style="background: var(--surface-color);">
+      <svg class="w-8 h-8 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" id="narrativeIcon2" style="color: var(--secondary-color);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p class="text-base md:text-lg opacity-85 text-left" id="narrativeTextConclusion">Concluímos que as políticas mudaram conforme a maré econômica. O desafio agora não é mais o acesso à máquina, mas a soberania sobre o conhecimento e os dados gerados na escola.</p>
+      </div>
+      <HR>
+      <div class="flex items-start gap-4 p-6 md:p-8 rounded-lg max-w-3xl mx-auto" id="narrativeBox2" style="background: var(--surface-color);">
+        <p class="text-base md:text-lg opacity-85 text-left" id="narrativeTextConclusion">A história da informática na educação revela que a tecnologia nunca foi neutra — ela sempre expressou um projeto de sociedade.</p>
+     </div><!-- Timeline summary -->
+     <div class="mt-10 md:mt-14 pt-6 md:pt-8 border-t border-opacity-20" id="timelineSummary">
+      <p class="text-xs md:text-sm uppercase tracking-widest opacity-60 mb-4">40 ANOS EM PERSPECTIVA</p>
+      <div class="flex flex-wrap justify-center gap-2 md:gap-3">
+       <div class="px-3 py-1 rounded text-xs md:text-sm" id="era1980" style="background: var(--accent-color); color: white;">
+        1980: Soberania
+       </div>
+       <div class="px-3 py-1 rounded text-xs md:text-sm" id="era1990" style="background: var(--accent-color); color: white;">
+        1990: Neoliberalismo
+       </div>
+       <div class="px-3 py-1 rounded text-xs md:text-sm" id="era2000" style="background: var(--secondary-color); color: white;">
+        2000: Inclusão
+       </div>
+       <div class="px-3 py-1 rounded text-xs md:text-sm" id="era2010" style="background: var(--secondary-color); color: white;">
+        2010: Padronização
+       </div>
+       <div class="px-3 py-1 rounded text-xs md:text-sm opacity-70" id="era2020" style="background: var(--accent-color); color: white;">
+        2020: Plataformização
+       </div>
+      </div>
+     </div>
+     <div class="mt-8 md:mt-12">
+      <p class="text-sm opacity-60">Fim da apresentação</p>
+      <svg class="w-5 h-5 mx-auto mt-2 animate-pulse" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+     </div>
+    </div>
+   </section>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: '#0f172a',
+      surface_color: '#1e293b',
+      text_color: '#f1f5f9',
+      primary_action: '#8b5cf6',
+      secondary_action: '#6366f1',
+      font_family: 'Source Sans Pro',
+      font_size: 16,
+      main_title: 'Política Educacional e Tecnologias',
+      subtitle: 'Uma Linha do Tempo Crítica: Da Soberania Nacional à Plataformização (1980-2025)',
+      author_name: 'Jónison A. dos Santos'
+    };
+    
+    let config = { ...defaultConfig };
+    
+    function applyColors() {
+      const root = document.documentElement;
+      root.style.setProperty('--bg-color', config.background_color);
+      root.style.setProperty('--surface-color', config.surface_color);
+      root.style.setProperty('--text-color', config.text_color);
+      root.style.setProperty('--accent-color', config.primary_action);
+      root.style.setProperty('--secondary-color', config.secondary_action);
+      
+      // Convert hex to RGB for box-shadow
+      const hexToRgb = (hex) => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '139, 92, 246';
+      };
+      root.style.setProperty('--accent-rgb', hexToRgb(config.primary_action));
+      
+      // Apply background color to body and slides
+      document.body.style.backgroundColor = config.background_color;
+      document.body.style.color = config.text_color;
+      
+      // Apply to all slides
+      document.querySelectorAll('.slide').forEach(slide => {
+        slide.style.backgroundColor = config.background_color;
+      });
+      
+      // Surface colors
+      document.querySelectorAll('#conceptBox1, #narrativeBox, #concept80s, #concept90s, #concept2000s, #concept2010s, #concept2020s').forEach(el => {
+        if (el) {
+          el.style.backgroundColor = config.surface_color;
+        }
+      });
+      
+      // Lab grid and cards
+      const labGrid = document.getElementById('labGrid');
+      if (labGrid) labGrid.style.backgroundColor = config.surface_color;
+      
+      const bnccCard = document.getElementById('bnccCard');
+      if (bnccCard) bnccCard.style.backgroundColor = config.surface_color;
+      
+      const wordCloud = document.getElementById('wordCloud');
+      if (wordCloud) wordCloud.style.backgroundColor = config.surface_color;
+      
+      // Primary action color elements
+      document.querySelectorAll('.decade-badge').forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${config.primary_action} 0%, ${config.secondary_action} 100%)`;
+      });
+      
+      const introLabel = document.getElementById('introLabel');
+      if (introLabel) {
+        introLabel.style.backgroundColor = config.primary_action;
+        introLabel.style.color = '#ffffff';
+      }
+      
+      const authorBadge = document.getElementById('authorBadge');
+      if (authorBadge) {
+        authorBadge.style.backgroundColor = config.surface_color;
+      }
+      
+      const bnccIcon = document.getElementById('bnccIcon');
+      if (bnccIcon) {
+        bnccIcon.style.backgroundColor = config.primary_action;
+        bnccIcon.style.color = '#ffffff';
+      }
+      
+      // Concept box borders
+      document.querySelectorAll('.concept-box').forEach(el => {
+        el.style.borderLeftColor = config.primary_action;
+      });
+      
+      // Nav dots
+      document.querySelectorAll('.nav-dot').forEach(dot => {
+        dot.style.borderColor = config.primary_action;
+        if (dot.classList.contains('active')) {
+          dot.style.backgroundColor = config.primary_action;
+        }
+      });
+      
+      // Progress bar
+      const progressBar = document.getElementById('progressBar');
+      if (progressBar) progressBar.style.backgroundColor = config.primary_action;
+      
+      // Secondary action colors
+      const emphasisText = document.getElementById('emphasisText');
+      if (emphasisText) emphasisText.style.textDecorationColor = config.secondary_action;
+      
+      const narrativeIcon = document.getElementById('narrativeIcon');
+      if (narrativeIcon) narrativeIcon.style.color = config.secondary_action;
+      
+      // Word cloud colors
+      const cloudElements = ['cloud1', 'cloud3', 'cloud5', 'cloud7', 'cloud11'];
+      cloudElements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.color = config.primary_action;
+      });
+      
+      const cloudSecondary = ['cloud2', 'cloud4', 'cloud6', 'cloud8', 'cloud9', 'cloud10', 'cloud12'];
+      cloudSecondary.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.color = config.secondary_action;
+      });
+      
+      // Lab computers
+      for (let i = 1; i <= 6; i++) {
+        const pc = document.getElementById(`pc${i}`);
+        if (pc) {
+          pc.style.backgroundColor = config.background_color;
+          pc.style.color = config.text_color;
+        }
+      }
+      
+      // Bullets
+      const bulletIds = ['bullet1', 'bullet2', 'bullet90-1', 'bullet90-2', 'bullet2000-1', 'bullet2000-2', 'bullet2010-1', 'bullet2010-2', 'bullet2020-1', 'bullet2020-2'];
+      bulletIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.color = config.primary_action;
+      });
+    }
+    
+    function applyFonts() {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      // Apply to body
+      document.body.style.fontFamily = `${customFont}, Arial, sans-serif`;
+      document.body.style.fontSize = `${baseSize}px`;
+      
+      // Apply to display text
+      document.querySelectorAll('.font-display').forEach(el => {
+        el.style.fontFamily = `'Playfair Display', ${customFont}, Georgia, serif`;
+      });
+    }
+    
+    function applyText() {
+      const mainTitle = document.getElementById('mainTitle');
+      if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      
+      const subtitle = document.getElementById('subtitle');
+      if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+      
+      const authorName = document.getElementById('authorName');
+      if (authorName) authorName.textContent = config.author_name || defaultConfig.author_name;
+    }
+    
+    // Navigation
+    const slideContainer = document.getElementById('slideContainer');
+    const navDots = document.querySelectorAll('.nav-dot');
+    const progressBar = document.getElementById('progressBar');
+    let currentSlide = 0;
+    
+    function updateNavigation() {
+      const scrollTop = slideContainer.scrollTop;
+      const slideHeight = slideContainer.clientHeight;
+      const totalHeight = slideContainer.scrollHeight - slideHeight;
+      
+      currentSlide = Math.round(scrollTop / slideHeight);
+      
+      // Update progress bar
+      const progress = (scrollTop / totalHeight) * 100;
+      progressBar.style.width = `${progress}%`;
+      
+      // Update nav dots
+      navDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+        dot.style.backgroundColor = index === currentSlide ? config.primary_action : 'transparent';
+      });
+    }
+    
+    slideContainer.addEventListener('scroll', updateNavigation);
+    
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const slideIndex = parseInt(dot.dataset.slide);
+        const targetSlide = document.getElementById(`slide-${slideIndex}`);
+        if (targetSlide) {
+          targetSlide.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        const nextSlide = document.getElementById(`slide-${currentSlide + 1}`);
+        if (nextSlide) nextSlide.scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        const prevSlide = document.getElementById(`slide-${currentSlide - 1}`);
+        if (prevSlide) prevSlide.scrollIntoView({ behavior: 'smooth' });
+      }
+    });    
+    // Initial render
+    applyColors();
+    applyFonts();
+    applyText();
+    updateNavigation();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6cd761470336ec',t:'MTc2OTkwMDU5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
