@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política e Tecnologia na Educação: Uma Análise Crítica</title>
+    <title>Política e Tecnologia na Educação: Dossiê Completo</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -13,15 +16,21 @@
             theme: {
                 extend: {
                     colors: {
-                        'academic-dark': '#0f172a',
-                        'academic-card': '#1e293b',
-                        'accent-gold': '#d4af37', /* Dourado acadêmico */
-                        'accent-blue': '#3b82f6',
+                        'academic-dark': '#0b1120',   /* Fundo super escuro */
+                        'academic-card': '#1e293b',   /* Cartões */
+                        'accent-gold': '#fbbf24',     /* Destaques importantes */
+                        'accent-blue': '#3b82f6',     /* Links e botões */
+                        'accent-red': '#ef4444',      /* Erros/Críticas */
+                        'accent-green': '#10b981',    /* Sucessos/Acertos */
                     },
                     fontFamily: {
                         'serif': ['"Playfair Display"', 'serif'],
                         'body': ['Lato', 'sans-serif'],
                         'mono': ['"JetBrains Mono"', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(59, 130, 246, 0.5)',
+                        'gold-glow': '0 0 15px rgba(251, 191, 36, 0.3)',
                     }
                 }
             }
@@ -29,128 +38,92 @@
     </script>
 
     <style>
-        /* --- ESTILOS GERAIS E SCROLLBAR --- */
-        body {
-            background-color: #0f172a;
-            color: #cbd5e1;
-            overflow-x: hidden;
+        /* --- ESTILOS GERAIS --- */
+        body { 
+            background-color: #0b1120; 
+            color: #cbd5e1; 
+            overflow-x: hidden; 
         }
         
+        /* Scrollbar Personalizada */
         ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-track { background: #0b1120; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-        /* --- TIMELINE LATERAL FIXA --- */
+        /* --- TIMELINE LATERAL (Navegação) --- */
         .timeline-nav {
-            position: fixed;
-            left: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            position: fixed; left: 2rem; top: 50%; transform: translateY(-50%); z-index: 40;
+            display: flex; flex-direction: column; gap: 1.5rem;
+        }
+        .timeline-line {
+            position: absolute; left: 5px; top: 0; bottom: 0; width: 2px; background: #334155; z-index: -1;
         }
         .timeline-dot {
-            width: 12px;
-            height: 12px;
-            background: #334155;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            width: 12px; height: 12px; background: #334155; border-radius: 50%; cursor: pointer;
+            transition: all 0.3s ease; position: relative; border: 2px solid #0b1120;
         }
         .timeline-dot::after {
-            content: attr(data-year);
-            position: absolute;
-            left: 20px;
-            top: -4px;
-            color: #94a3b8;
-            font-size: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
+            content: attr(data-year); position: absolute; left: 24px; top: -5px;
+            color: #94a3b8; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
+            opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none;
         }
         .timeline-dot:hover::after, .timeline-dot.active::after { opacity: 1; }
         .timeline-dot.active {
-            background: #d4af37; /* Gold */
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-            transform: scale(1.3);
-        }
-        .timeline-line {
-            position: absolute;
-            left: 5px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #334155;
-            z-index: -1;
+            background: #fbbf24; 
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.8); 
+            transform: scale(1.4);
         }
 
-        /* --- CARDS GIRATÓRIOS (FLIP) --- */
+        /* --- FLIP CARDS (Cartões Giratórios) --- */
         .perspective-container { perspective: 1000px; }
         .flip-card {
-            width: 100%;
-            height: 420px; /* Altura fixa para notebooks não estourarem */
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-            cursor: pointer;
+            width: 100%; height: 450px; /* Altura fixa para alinhar no notebook */
+            position: relative; transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer;
         }
         .flip-card.flipped { transform: rotateY(180deg); }
         .flip-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 1rem;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 1rem; padding: 2.5rem; display: flex; flex-direction: column;
+            justify-content: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .flip-front { background: #1e293b; } /* Slate 800 */
+        .flip-front { background: #1e293b; }
         .flip-back { 
-            background: linear-gradient(145deg, #7f1d1d, #450a0a); /* Red Gradient */
-            transform: rotateY(180deg); 
-            color: white;
+            background: linear-gradient(145deg, #7f1d1d, #450a0a); /* Gradiente Vermelho */
+            transform: rotateY(180deg); color: white;
         }
 
-        /* --- MODAL (DOSSIÊ TÉCNICO) --- */
+        /* --- MODAIS DE CONTEÚDO --- */
         .modal-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px);
+            z-index: 100; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
         }
         .modal-overlay.open { opacity: 1; pointer-events: auto; }
         .modal-content {
-            background: #1e293b;
-            border: 1px solid #475569;
-            width: 90%; max-width: 800px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 1rem;
-            padding: 3rem;
-            transform: translateY(20px);
-            transition: transform 0.3s;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: #1e293b; border: 1px solid #475569; width: 95%; max-width: 900px;
+            max-height: 90vh; overflow-y: auto; border-radius: 1rem; padding: 0;
+            transform: translateY(30px) scale(0.95); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
-        .modal-overlay.open .modal-content { transform: translateY(0); }
+        .modal-overlay.open .modal-content { transform: translateY(0) scale(1); }
+        .modal-header { padding: 2rem; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; background: #0f172a; position: sticky; top: 0; }
+        .modal-body { padding: 2rem; line-height: 1.8; font-size: 1.05rem; }
 
-        /* --- TEXTOS E DETALHES --- */
-        .text-justified { text-align: justify; }
-        .highlight-term {
-            border-bottom: 2px dotted #3b82f6;
-            cursor: help;
+        /* --- DESTAQUES --- */
+        .highlight-term { 
+            border-bottom: 2px dotted #3b82f6; cursor: help; color: #60a5fa;
         }
+        .highlight-term:hover { color: white; border-bottom-style: solid; }
+        
+        /* --- ANIMAÇÕES DE ENTRADA --- */
+        .reveal {
+            opacity: 0; transform: translateY(30px); transition: all 1s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
     </style>
 </head>
 <body class="font-body selection:bg-accent-gold selection:text-black">
@@ -161,54 +134,61 @@
         <div class="timeline-dot" data-year="Anos 80" onclick="scrollToId('section-80')"></div>
         <div class="timeline-dot" data-year="Anos 90" onclick="scrollToId('section-90')"></div>
         <div class="timeline-dot" data-year="Anos 2000" onclick="scrollToId('section-00')"></div>
-        <div class="timeline-dot" data-year="2010 - Hoje" onclick="scrollToId('section-10')"></div>
-        <div class="timeline-dot" data-year="Conclusão" onclick="scrollToId('section-final')"></div>
+        <div class="timeline-dot" data-year="Hoje" onclick="scrollToId('section-10')"></div>
+        <div class="timeline-dot" data-year="Reflexão" onclick="scrollToId('section-reflexao')"></div>
+        <div class="timeline-dot" data-year="Desafio" onclick="scrollToId('section-quiz-cta')"></div>
     </nav>
 
     <section id="intro" class="min-h-screen flex items-center justify-center relative bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
         <div class="max-w-5xl mx-auto px-6 text-center z-10">
-            <div class="inline-block px-4 py-1 mb-6 border border-accent-gold/50 rounded-full bg-accent-gold/10 text-accent-gold text-sm font-mono tracking-widest uppercase">
-                Mestrado Profissional • Artefato Digital
+            <div class="inline-block px-4 py-1 mb-6 border border-accent-gold/50 rounded-full bg-accent-gold/10 text-accent-gold text-sm font-mono tracking-widest uppercase animate-pulse">
+                Artefato Digital • Mestrado Profissional<br>
+                Acadêmicos: Jónison Almeida dos Santos e  Diego Resende Pacheco 
             </div>
-            <h1 class="text-5xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+            
+            <h1 class="text-5xl lg:text-7xl font-serif font-bold text-white mb-8 leading-tight drop-shadow-lg">
                 Cronologia Crítica:<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Informática na Educação</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">Política & Tecnologia na Escola</span>
             </h1>
-            <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-                Uma análise das políticas públicas brasileiras (1980-2025): da busca pela <strong class="text-white">soberania nacional</strong> à atual <strong class="text-white">dependência de plataformas</strong>.
+            
+            <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
+                Uma análise interativa sobre 40 anos de políticas públicas: do sonho da <strong class="text-white">soberania nacional</strong> (1980) à realidade da <strong class="text-white">dependência de plataformas</strong> (2025).
             </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="scrollToId('section-80')" class="px-8 py-3 bg-accent-blue hover:bg-blue-600 text-white font-bold rounded shadow-lg transition transform hover:-translate-y-1">
-                    Iniciar Análise
+            
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <button onclick="scrollToId('section-80')" class="px-8 py-4 bg-accent-blue hover:bg-blue-600 text-white font-bold rounded-lg shadow-glow transition transform hover:-translate-y-1">
+                    <i class="fas fa-play mr-2"></i> Iniciar Análise Histórica
                 </button>
-                <button onclick="openModal('modal-sobre')" class="px-8 py-3 border border-slate-600 hover:border-slate-400 text-slate-300 rounded transition">
-                    Sobre o Projeto
+                <button onclick="openModal('modal-sobre')" class="px-8 py-4 border border-slate-600 hover:border-slate-400 text-slate-300 rounded-lg transition hover:bg-white/5">
+                    <i class="fas fa-info-circle mr-2"></i> Sobre o Projeto
                 </button>
             </div>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-academic-dark pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-academic-dark/80 to-academic-dark pointer-events-none"></div>
     </section>
 
-    <section id="section-80" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-20">
+    <section id="section-80" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-24 reveal">
         <div class="max-w-7xl mx-auto px-6 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-6">
-                    <div class="flex items-baseline gap-4">
-                        <span class="text-6xl font-mono font-bold text-slate-700">80's</span>
+                
+                <div class="space-y-8">
+                    <div class="flex items-baseline gap-4 border-b border-slate-700 pb-4">
+                        <span class="text-6xl font-mono font-bold text-slate-600">80's</span>
                         <h2 class="text-3xl lg:text-4xl font-serif text-white">A Gênese e a Soberania</h2>
                     </div>
-                    <p class="text-lg text-slate-300 text-justified leading-relaxed">
-                        Em plena Redemocratização, o Brasil adotou uma política protecionista (Reserva de Mercado). Na educação, sob influência de <span class="highlight-term" title="Matemático criador da linguagem LOGO e do Construcionismo">Seymour Papert</span> e Valente, o computador era visto como ferramenta cognitiva.
+                    
+                    <p class="text-lg text-slate-300 text-justify leading-relaxed">
+                        Em plena Redemocratização, o Brasil adotou uma política protecionista (Reserva de Mercado). Na educação, sob influência de <span class="highlight-term" title="Matemático e educador, criador da linguagem LOGO">Seymour Papert</span> e Valente, o computador era visto como uma "máquina de pensar".
                     </p>
                     <p class="text-slate-400">
                         O objetivo não era usar software pronto, mas <strong>programar</strong>.
                     </p>
-                    
-                    <div class="pt-4">
-                        <button onclick="openModal('modal-80')" class="flex items-center gap-3 text-accent-gold hover:text-yellow-200 transition group">
-                            <i class="fas fa-folder-open"></i>
-                            <span class="font-bold uppercase tracking-wider text-sm">Abrir Dossiê Técnico: Lei 7.232/84</span>
-                            <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition"></i>
+
+                    <div class="bg-academic-card p-6 rounded-lg border-l-4 border-accent-gold">
+                        <h4 class="text-accent-gold font-bold mb-2 text-sm uppercase">Aprofundamento Teórico</h4>
+                        <p class="text-sm text-slate-400 mb-4">Leia o detalhamento sobre a Lei 7.232/84 e o Projeto EDUCOM.</p>
+                        <button onclick="openModal('modal-80')" class="text-white hover:text-accent-gold transition flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
+                            Abrir Dossiê Completo <i class="fas fa-external-link-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -216,92 +196,97 @@
                 <div class="perspective-container">
                     <div class="flip-card" onclick="this.classList.toggle('flipped')">
                         <div class="flip-face flip-front">
-                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR</div>
-                            <i class="fas fa-microchip text-emerald-500 text-6xl mb-6"></i>
-                            <h3 class="text-2xl font-bold text-white mb-2">A Visão Oficial</h3>
-                            <div class="h-1 w-20 bg-emerald-500 mb-6"></div>
-                            <p class="text-slate-300">"O Brasil desenvolverá sua própria tecnologia. Nossos alunos aprenderão a lógica da programação (LOGO) para desenvolver o raciocínio."</p>
+                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR <i class="fas fa-sync ml-1"></i></div>
+                            <i class="fas fa-microchip text-emerald-500 text-7xl mb-6"></i>
+                            <h3 class="text-3xl font-bold text-white mb-4">A Visão Oficial</h3>
+                            <div class="h-1 w-24 bg-emerald-500 mb-6"></div>
+                            <p class="text-slate-300 text-lg">"O Brasil desenvolverá sua própria tecnologia. Nossos alunos aprenderão a <strong>lógica da programação</strong> (Linguagem LOGO) para desenvolver o raciocínio."</p>
                         </div>
                         <div class="flip-face flip-back">
-                            <i class="fas fa-exclamation-triangle text-yellow-400 text-5xl mb-4"></i>
-                            <h3 class="text-2xl font-bold mb-2">A Realidade</h3>
-                            <p class="text-white/90 text-sm leading-relaxed">
-                                A Reserva de Mercado tornou os computadores caríssimos e obsoletos. O projeto EDUCOM ficou restrito a <strong>universidades e centros piloto</strong>. A escola pública de massa nunca recebeu essas máquinas. O sonho da autonomia não escalou.
+                            <i class="fas fa-exclamation-triangle text-yellow-400 text-6xl mb-6"></i>
+                            <h3 class="text-3xl font-bold mb-4">A Realidade</h3>
+                            <p class="text-white/90 text-lg leading-relaxed">
+                                A Reserva de Mercado tornou os computadores nacionais caríssimos e defasados. O projeto EDUCOM ficou restrito a <strong>universidades e centros piloto</strong>. A escola pública de massa nunca recebeu essas máquinas. O sonho não escalou.
                             </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="section-90" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-20 bg-academic-dark/50">
+    <section id="section-90" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-24 bg-academic-card/30 reveal">
         <div class="max-w-7xl mx-auto px-6 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 
                 <div class="perspective-container order-2 lg:order-1">
                     <div class="flip-card" onclick="this.classList.toggle('flipped')">
                         <div class="flip-face flip-front">
-                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR</div>
-                            <i class="fas fa-globe text-blue-500 text-6xl mb-6"></i>
-                            <h3 class="text-2xl font-bold text-white mb-2">A Visão Oficial</h3>
-                            <div class="h-1 w-20 bg-blue-500 mb-6"></div>
-                            <p class="text-slate-300">"Vamos conectar o Brasil à globalização. Instalação massiva de laboratórios (ProInfo) para preparar mão de obra qualificada."</p>
+                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR <i class="fas fa-sync ml-1"></i></div>
+                            <i class="fas fa-globe text-blue-500 text-7xl mb-6"></i>
+                            <h3 class="text-3xl font-bold text-white mb-4">A Visão Oficial</h3>
+                            <div class="h-1 w-24 bg-blue-500 mb-6"></div>
+                            <p class="text-slate-300 text-lg">"Vamos conectar o Brasil à globalização. Instalação massiva de laboratórios (ProInfo) para preparar mão de obra qualificada para o mercado."</p>
                         </div>
                         <div class="flip-face flip-back bg-gradient-to-br from-blue-900 to-slate-900">
-                            <i class="fas fa-lock text-white text-5xl mb-4"></i>
-                            <h3 class="text-2xl font-bold mb-2">A Realidade</h3>
-                            <p class="text-white/90 text-sm leading-relaxed">
-                                Nasceu o modelo do <strong>"Laboratório Trancado"</strong>. As máquinas chegaram, mas sem formação pedagógica, ficaram segregadas em salas com grades, usadas apenas para cursos de Office (Word/Excel) ou digitação.
+                            <i class="fas fa-lock text-white text-6xl mb-6"></i>
+                            <h3 class="text-3xl font-bold mb-4">A Realidade</h3>
+                            <p class="text-white/90 text-lg leading-relaxed">
+                                Nasceu o modelo do <strong>"Laboratório Trancado"</strong>. As máquinas chegaram, mas sem formação pedagógica adequada, ficaram segregadas em salas com grades, usadas apenas para cursos de digitação ou Office.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-6 order-1 lg:order-2">
-                    <div class="flex items-baseline gap-4">
-                        <span class="text-6xl font-mono font-bold text-slate-700">90's</span>
+                <div class="space-y-8 order-1 lg:order-2">
+                    <div class="flex items-baseline gap-4 border-b border-slate-700 pb-4">
+                        <span class="text-6xl font-mono font-bold text-slate-600">90's</span>
                         <h2 class="text-3xl lg:text-4xl font-serif text-white">Mercado e ProInfo</h2>
                     </div>
-                    <p class="text-lg text-slate-300 text-justified leading-relaxed">
-                        Com a abertura econômica e o Neoliberalismo, a informática educativa mudou de foco: do "fazer" para o "usar". O governo lançou o <strong>ProInfo (1997)</strong>, comprando milhares de computadores para criar os NTEs.
+                    
+                    <p class="text-lg text-slate-300 text-justify leading-relaxed">
+                        Com a abertura econômica e o <span class="highlight-term" title="Doutrina econômica que defende a mínima intervenção do Estado">Neoliberalismo</span>, a informática educativa mudou de foco: do "fazer" para o "usar". O governo lançou o <strong>ProInfo (1997)</strong>, comprando milhares de computadores.
                     </p>
                     <p class="text-slate-400">
-                        A educação passou a servir à <span class="highlight-term" title="Adaptação do ensino para criar trabalhadores aptos às novas tecnologias de produção">Reestruturação Produtiva</span>.
+                        A educação passou a servir à <strong>Reestruturação Produtiva</strong>, treinando alunos para operar ferramentas de escritório.
                     </p>
-                    
-                    <div class="pt-4">
-                        <button onclick="openModal('modal-90')" class="flex items-center gap-3 text-accent-gold hover:text-yellow-200 transition group">
-                            <i class="fas fa-folder-open"></i>
-                            <span class="font-bold uppercase tracking-wider text-sm">Abrir Dossiê Técnico: Portaria 522/97</span>
-                            <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition"></i>
+
+                    <div class="bg-academic-card p-6 rounded-lg border-l-4 border-accent-blue">
+                        <h4 class="text-accent-blue font-bold mb-2 text-sm uppercase">Aprofundamento Teórico</h4>
+                        <p class="text-sm text-slate-400 mb-4">Detalhes sobre a Portaria 522/97 e os Núcleos de Tecnologia (NTE).</p>
+                        <button onclick="openModal('modal-90')" class="text-white hover:text-accent-blue transition flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
+                            Abrir Dossiê Completo <i class="fas fa-external-link-alt"></i>
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="section-00" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-20">
+    <section id="section-00" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-24 reveal">
         <div class="max-w-7xl mx-auto px-6 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-6">
-                    <div class="flex items-baseline gap-4">
-                        <span class="text-6xl font-mono font-bold text-slate-700">00's</span>
+                
+                <div class="space-y-8">
+                    <div class="flex items-baseline gap-4 border-b border-slate-700 pb-4">
+                        <span class="text-6xl font-mono font-bold text-slate-600">00's</span>
                         <h2 class="text-3xl lg:text-4xl font-serif text-white">Inclusão e o UCA</h2>
                     </div>
-                    <p class="text-lg text-slate-300 text-justified leading-relaxed">
-                        A era da "Terceira Via". O governo Lula tentou unir o desenvolvimento da indústria nacional com justiça social. O símbolo máximo foi o <strong>PROUCA (Um Computador por Aluno)</strong>.
+                    
+                    <p class="text-lg text-slate-300 text-justify leading-relaxed">
+                        A era da "Terceira Via". O governo tentou unir o desenvolvimento da indústria nacional com justiça social. O símbolo máximo foi o <strong>PROUCA (Um Computador por Aluno)</strong>.
                     </p>
                     <p class="text-slate-400">
-                        A crença no <em>"Fetichismo Tecnológico"</em>: acreditava-se que entregar o dispositivo resolveria o déficit educacional.
+                        Foi o auge do <em>"Fetichismo Tecnológico"</em>: a crença política de que entregar o dispositivo (hardware) resolveria automaticamente o déficit educacional.
                     </p>
-                    
-                    <div class="pt-4">
-                        <button onclick="openModal('modal-00')" class="flex items-center gap-3 text-accent-gold hover:text-yellow-200 transition group">
-                            <i class="fas fa-folder-open"></i>
-                            <span class="font-bold uppercase tracking-wider text-sm">Abrir Dossiê Técnico: Lei 12.249/10</span>
-                            <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition"></i>
+
+                    <div class="bg-academic-card p-6 rounded-lg border-l-4 border-accent-gold">
+                        <h4 class="text-accent-gold font-bold mb-2 text-sm uppercase">Aprofundamento Teórico</h4>
+                        <p class="text-sm text-slate-400 mb-4">A Lei 12.249/10 e o fracasso logístico do Laptop Verde.</p>
+                        <button onclick="openModal('modal-00')" class="text-white hover:text-accent-gold transition flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
+                            Abrir Dossiê Completo <i class="fas fa-external-link-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -309,242 +294,433 @@
                 <div class="perspective-container">
                     <div class="flip-card" onclick="this.classList.toggle('flipped')">
                         <div class="flip-face flip-front">
-                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR</div>
-                            <i class="fas fa-laptop text-yellow-500 text-6xl mb-6"></i>
-                            <h3 class="text-2xl font-bold text-white mb-2">A Visão Oficial</h3>
-                            <div class="h-1 w-20 bg-yellow-500 mb-6"></div>
-                            <p class="text-slate-300">"Inclusão digital total. Cada criança terá seu laptop verde, levando a escola para casa e a família para o mundo digital."</p>
+                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR <i class="fas fa-sync ml-1"></i></div>
+                            <i class="fas fa-laptop text-yellow-500 text-7xl mb-6"></i>
+                            <h3 class="text-3xl font-bold text-white mb-4">A Visão Oficial</h3>
+                            <div class="h-1 w-24 bg-yellow-500 mb-6"></div>
+                            <p class="text-slate-300 text-lg">"Inclusão digital total. Cada criança terá seu laptop verde, levando a escola para casa e integrando a família ao mundo digital."</p>
                         </div>
                         <div class="flip-face flip-back">
-                            <i class="fas fa-battery-slash text-white text-5xl mb-4"></i>
-                            <h3 class="text-2xl font-bold mb-2">A Realidade</h3>
-                            <p class="text-white/90 text-sm leading-relaxed">
-                                Fracasso logístico. As escolas não tinham <strong>tomadas</strong> para carregar 500 laptops. A internet era lenta. Os professores não foram capacitados. Resultado: pilhas de laptops novos trancados em depósitos.
+                            <i class="fas fa-battery-slash text-white text-6xl mb-6"></i>
+                            <h3 class="text-3xl font-bold mb-4">A Realidade</h3>
+                            <p class="text-white/90 text-lg leading-relaxed">
+                                Fracasso de infraestrutura. Escolas sem tomadas para carregar 500 laptops, internet precária e falta de capacitação docente resultaram em pilhas de equipamentos sem uso em depósitos.
                             </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="section-10" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-20 bg-academic-dark/50">
+    <section id="section-10" class="min-h-screen flex items-center justify-center border-t border-slate-800 py-24 bg-academic-card/30 reveal">
         <div class="max-w-7xl mx-auto px-6 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 
                 <div class="perspective-container order-2 lg:order-1">
                     <div class="flip-card" onclick="this.classList.toggle('flipped')">
                         <div class="flip-face flip-front">
-                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR</div>
-                            <i class="fas fa-cloud text-purple-500 text-6xl mb-6"></i>
-                            <h3 class="text-2xl font-bold text-white mb-2">A Visão Oficial</h3>
-                            <div class="h-1 w-20 bg-purple-500 mb-6"></div>
-                            <p class="text-slate-300">"Educação 4.0. Ensino Híbrido, Inteligência Artificial e BNCC. A escola conectada na nuvem das grandes plataformas."</p>
+                            <div class="absolute top-6 right-6 text-slate-500 font-mono text-xs border border-slate-600 px-2 py-1 rounded">CLIQUE PARA GIRAR <i class="fas fa-sync ml-1"></i></div>
+                            <i class="fas fa-cloud text-purple-500 text-7xl mb-6"></i>
+                            <h3 class="text-3xl font-bold text-white mb-4">A Visão Oficial</h3>
+                            <div class="h-1 w-24 bg-purple-500 mb-6"></div>
+                            <p class="text-slate-300 text-lg">"Educação 4.0. Ensino Híbrido, Inteligência Artificial e BNCC. A escola conectada na nuvem das grandes plataformas."</p>
                         </div>
                         <div class="flip-face flip-back bg-gradient-to-br from-purple-900 to-slate-900">
-                            <i class="fas fa-user-secret text-white text-5xl mb-4"></i>
-                            <h3 class="text-2xl font-bold mb-2">A Realidade</h3>
-                            <p class="text-white/90 text-sm leading-relaxed">
-                                <strong>Plataformização e Vigilância.</strong> O Estado parou de fornecer tecnologia e passou a contratar "serviços" (Google/Microsoft). Os dados dos alunos viraram a moeda de troca. Perda da soberania de dados.
+                            <i class="fas fa-user-secret text-white text-6xl mb-6"></i>
+                            <h3 class="text-3xl font-bold mb-4">A Realidade</h3>
+                            <p class="text-white/90 text-lg leading-relaxed">
+                                <strong>Plataformização e Vigilância.</strong> O Estado parou de fornecer tecnologia e passou a contratar "serviços" (Google/Microsoft). Os dados dos alunos viraram a moeda de troca. Perdemos a soberania dos dados.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-6 order-1 lg:order-2">
-                    <div class="flex items-baseline gap-4">
-                        <span class="text-6xl font-mono font-bold text-slate-700">Hoje</span>
-                        <h2 class="text-3xl lg:text-4xl font-serif text-white">BNCC e Plataformização</h2>
+                <div class="space-y-8 order-1 lg:order-2">
+                    <div class="flex items-baseline gap-4 border-b border-slate-700 pb-4">
+                        <span class="text-6xl font-mono font-bold text-slate-600">Hoje</span>
+                        <h2 class="text-3xl lg:text-4xl font-serif text-white">BNCC e Plataformas</h2>
                     </div>
-                    <p class="text-lg text-slate-300 text-justified leading-relaxed">
-                        A Base Nacional Comum Curricular (Competência 5) tornou a cultura digital obrigatória. Porém, com a pandemia, houve uma adoção acrítica de plataformas privadas.
+                    
+                    <p class="text-lg text-slate-300 text-justify leading-relaxed">
+                        A BNCC tornou a cultura digital obrigatória. Com a pandemia, houve adoção massiva de plataformas privadas. Vivemos o que <span class="highlight-term" title="Autora do livro 'A Era do Capitalismo de Vigilância'">Shoshana Zuboff</span> chama de <strong>Capitalismo de Vigilância</strong>.
                     </p>
                     <p class="text-slate-400">
-                        Vivemos o <span class="highlight-term" title="Termo de Shoshana Zuboff: lucrar com a previsão de comportamentos baseada em dados pessoais">Capitalismo de Vigilância</span> na escola.
+                        O aluno não é mais o cliente, é o produto (dados).
                     </p>
-                    
-                    <div class="pt-4">
-                        <button onclick="openModal('modal-10')" class="flex items-center gap-3 text-accent-gold hover:text-yellow-200 transition group">
-                            <i class="fas fa-folder-open"></i>
-                            <span class="font-bold uppercase tracking-wider text-sm">Abrir Dossiê Técnico: BNCC & LGPD</span>
-                            <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition"></i>
+
+                    <div class="bg-academic-card p-6 rounded-lg border-l-4 border-purple-500">
+                        <h4 class="text-purple-400 font-bold mb-2 text-sm uppercase">Aprofundamento Teórico</h4>
+                        <p class="text-sm text-slate-400 mb-4">A Base Nacional Comum Curricular e a LGPD na educação.</p>
+                        <button onclick="openModal('modal-10')" class="text-white hover:text-purple-400 transition flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
+                            Abrir Dossiê Completo <i class="fas fa-external-link-alt"></i>
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="section-final" class="min-h-[70vh] flex items-center justify-center border-t border-slate-800 py-20 bg-gradient-to-b from-academic-dark to-black">
-        <div class="max-w-4xl px-6 text-center">
-            <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-8">Reflexão Final</h2>
-            <div class="bg-academic-card p-8 rounded-xl border border-slate-700 shadow-2xl">
-                <p class="text-xl text-slate-300 leading-relaxed italic mb-8">
-                    "A história da informática na educação brasileira não é uma linha reta de progresso. É um pêndulo que oscila entre a busca pela <strong>soberania</strong> (anos 80) e a submissão ao <strong>mercado</strong> (hoje)."
+    <section id="section-reflexao" class="min-h-[80vh] flex items-center justify-center border-t border-slate-800 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed reveal">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            
+            <div class="mb-12">
+                <i class="fas fa-lightbulb text-6xl text-accent-gold mb-6 inline-block"></i>
+                <h2 class="text-4xl lg:text-6xl font-serif font-bold text-white mb-6">Reflexão Final</h2>
+                <div class="h-1 w-32 bg-accent-gold mx-auto"></div>
+            </div>
+
+            <div class="bg-academic-card/80 backdrop-blur-sm p-10 rounded-2xl border border-slate-600 shadow-2xl text-left">
+                <p class="text-xl text-slate-200 leading-relaxed mb-8 font-light italic">
+                    "A tecnologia na educação nunca é neutra. Ao olharmos para estes 40 anos, vemos um deslocamento perigoso: deixamos de sonhar em <strong>produzir</strong> tecnologia (anos 80) para nos conformarmos em <strong>consumir</strong> plataformas (anos 2020)."
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-400 border-t border-slate-700 pt-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div>
-                        <strong class="text-emerald-500 block mb-1">Passado</strong>
-                        Produção de Tecnologia
+                        <h3 class="text-white font-bold text-lg mb-2 border-l-4 border-accent-blue pl-3">O Deslocamento do Poder</h3>
+                        <p class="text-slate-400 text-sm">
+                            Saímos da esfera pública (Estado provedor) para a esfera privada (Big Techs). A soberania digital foi trocada pela conveniência do "clique grátis".
+                        </p>
                     </div>
                     <div>
-                        <strong class="text-blue-500 block mb-1">Meio</strong>
-                        Acesso à Infraestrutura
-                    </div>
-                    <div>
-                        <strong class="text-purple-500 block mb-1">Presente</strong>
-                        Consumo de Dados
+                        <h3 class="text-white font-bold text-lg mb-2 border-l-4 border-accent-gold pl-3">O Papel do Educador</h3>
+                        <p class="text-slate-400 text-sm">
+                            O desafio não é técnico (ligar o PC), mas ético. Precisamos formar cidadãos que questionem os algoritmos, e não apenas usuários passivos que alimentam o sistema com seus dados.
+                        </p>
                     </div>
                 </div>
+
+                <div class="bg-slate-900/50 p-6 rounded-lg text-center">
+                    <p class="text-lg text-white font-serif">
+                        "A verdadeira inovação não está na máquina, mas na formação crítica humana."
+                    </p>
+                </div>
             </div>
-            <footer class="mt-16 text-slate-600 text-sm font-mono">
-                Desenvolvido por Jónison A. dos Santos e Diego Resende Pacheco • Mestrado Profissional
-            </footer>
+
+        </div>
+    </section>
+
+    <section id="section-quiz-cta" class="min-h-[50vh] flex items-center justify-center border-t border-slate-800 bg-gradient-to-t from-black to-academic-dark">
+        <div class="max-w-4xl px-6 text-center">
+            <i class="fas fa-puzzle-piece text-6xl text-white mb-6 animate-bounce"></i>
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Consolidação do Conhecimento</h2>
+            <p class="text-xl text-slate-300 mb-10">
+                Você explorou 40 anos de história. Prove que compreendeu as contradições políticas por trás das máquinas.
+            </p>
+            <button onclick="openQuizModal()" class="px-10 py-5 bg-gradient-to-r from-accent-gold to-yellow-600 text-black font-bold text-xl rounded-xl shadow-gold-glow hover:scale-105 transition transform">
+                INICIAR DESAFIO FINAL <i class="fas fa-arrow-right ml-2"></i>
+            </button>
         </div>
     </section>
 
     <div id="modal-80" class="modal-overlay" onclick="if(event.target === this) closeModal('modal-80')">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-600 pb-4">
+            <div class="modal-header">
                 <h3 class="text-2xl font-serif text-accent-gold">Dossiê Técnico: Década de 1980</h3>
                 <button onclick="closeModal('modal-80')" class="text-slate-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button>
             </div>
-            <div class="space-y-4 text-slate-300 leading-relaxed">
-                <p><strong>Marco Legal: Lei Nº 7.232, de 29 de outubro de 1984</strong><br>
-                Dispõe sobre a Política Nacional de Informática. Instituiu a "Reserva de Mercado", proibindo a importação de hardware para fomentar a indústria nacional (Cobra, Itautec, Scopus).</p>
-                <hr class="border-slate-700">
-                <p><strong>Projeto EDUCOM (1984):</strong><br>
-                Iniciativa do MEC com a SEI (Secretaria Especial de Informática). Criou centros pilotos em 5 universidades (UNICAMP, UFRJ, UFRGS, UFMG, UFPE). A visão era acadêmica e experimental.</p>
-                <hr class="border-slate-700">
-                <p><strong>Fundamentação Teórica:</strong><br>
-                Baseada no <em>Construcionismo</em> de Seymour Papert. O computador é uma "máquina de pensar". O aluno ensina o computador (programando em LOGO), e nesse processo, reflete sobre seu próprio pensamento (metacognição).</p>
+            <div class="modal-body text-slate-300">
+                <h4 class="text-white font-bold text-lg mb-2">1. Marco Legal: Lei Nº 7.232/84</h4>
+                <p class="mb-4">Esta lei instituiu a <strong>Política Nacional de Informática (PNI)</strong>. Sua principal característica foi a "Reserva de Mercado", que proibia a importação de hardware estrangeiro quando houvesse similar nacional. O objetivo era estratégico e militar: garantir a soberania tecnológica do Brasil.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">2. Projeto EDUCOM (1984)</h4>
+                <p class="mb-4">Iniciativa conjunta do MEC com a SEI (Secretaria Especial de Informática). Criou centros pilotos em 5 universidades (UNICAMP, UFRJ, UFRGS, UFMG, UFPE). Diferente de hoje, o foco era a pesquisa sobre o uso do computador no desenvolvimento cognitivo.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">3. Fundamentação Teórica: Construcionismo</h4>
+                <p class="mb-4">Baseado em <strong>Seymour Papert</strong> (MIT). A premissa era: "A criança programa o computador, e não o computador programa a criança". O uso da linguagem <strong>LOGO</strong> (a tartaruga) permitia que alunos explorassem geometria e lógica.</p>
             </div>
         </div>
     </div>
 
     <div id="modal-90" class="modal-overlay" onclick="if(event.target === this) closeModal('modal-90')">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-600 pb-4">
+            <div class="modal-header">
                 <h3 class="text-2xl font-serif text-accent-blue">Dossiê Técnico: Década de 1990</h3>
                 <button onclick="closeModal('modal-90')" class="text-slate-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button>
             </div>
-            <div class="space-y-4 text-slate-300 leading-relaxed">
-                <p><strong>Marco Legal: Portaria MEC nº 522/1997 (ProInfo)</strong><br>
-                Cria o Programa Nacional de Informática na Educação. O objetivo era distribuir 100 mil computadores para escolas públicas.</p>
-                <hr class="border-slate-700">
-                <p><strong>Estrutura: NTE (Núcleo de Tecnologia Educacional)</strong><br>
-                Estruturas descentralizadas para capacitar professores. Contudo, a lógica era "em cascata": o MEC treina o NTE, o NTE treina o multiplicador, que treina o professor. Houve muita perda de qualidade no processo.</p>
-                <hr class="border-slate-700">
-                <p><strong>Crítica (Pierre Lévy / Castells):</strong><br>
-                A escola foi pressionada pela "Sociedade da Informação" a se tornar um centro de treinamento digital básico, negligenciando a formação crítica.</p>
+            <div class="modal-body text-slate-300">
+                <h4 class="text-white font-bold text-lg mb-2">1. Contexto: Neoliberalismo</h4>
+                <p class="mb-4">Com o governo Collor e depois FHC, a Reserva de Mercado caiu. O Brasil abriu as portas para importação. A educação passou a ser vista como ferramenta para qualificar mão de obra para o mercado globalizado.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">2. Programa ProInfo (Portaria 522/97)</h4>
+                <p class="mb-4">O MEC comprou milhares de computadores para criar laboratórios em escolas públicas. Foi criado o sistema de <strong>NTE (Núcleos de Tecnologia Educacional)</strong> para capacitar professores.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">3. Crítica Pedagógica</h4>
+                <p class="mb-4">Autores como <strong>Valente</strong> criticam esta fase pelo "Instrucionismo". O computador servia apenas para digitalizar práticas antigas (fazer o mesmo trabalho no Word em vez do papel).</p>
             </div>
         </div>
     </div>
 
     <div id="modal-00" class="modal-overlay" onclick="if(event.target === this) closeModal('modal-00')">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-600 pb-4">
-                <h3 class="text-2xl font-serif text-yellow-500">Dossiê Técnico: Década de 2000</h3>
+            <div class="modal-header">
+                <h3 class="text-2xl font-serif text-accent-gold">Dossiê Técnico: Década de 2000</h3>
                 <button onclick="closeModal('modal-00')" class="text-slate-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button>
             </div>
-            <div class="space-y-4 text-slate-300 leading-relaxed">
-                <p><strong>Projeto UCA (Um Computador por Aluno) - 2005/2010</strong><br>
-                Inspirado no OLPC (One Laptop Per Child) de Nicholas Negroponte. O Brasil criou o "Laptop Educacional" (Classmate PC).</p>
-                <hr class="border-slate-700">
-                <p><strong>O Problema da Infraestrutura:</strong><br>
-                Relatórios do Cetic.br mostraram que, embora os laptops tenham sido entregues em escolas piloto, a falta de internet banda larga e rede elétrica adequada inviabilizou o uso pedagógico contínuo.</p>
-                <hr class="border-slate-700">
-                <p><strong>Conceito: Neodesenvolvimentismo</strong><br>
-                A política tentava fomentar a indústria local de hardware (Positivo, CCE) usando o poder de compra do Estado (educação) como alavanca econômica.</p>
+            <div class="modal-body text-slate-300">
+                <h4 class="text-white font-bold text-lg mb-2">1. O Projeto UCA (Lei 12.249/10)</h4>
+                <p class="mb-4">Inspirado no projeto OLPC (One Laptop Per Child). O Brasil criou o <strong>PROUCA</strong>. A ideia era a imersão tecnológica total (modelo 1:1). Politicamente, servia para fomentar a indústria nacional de hardware.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">2. Por que falhou?</h4>
+                <p class="mb-4">Relatórios do Cetic.br e do TCU apontaram falhas graves de planejamento. A infraestrutura física das escolas inviabilizou o uso. Além disso, os laptops tinham hardware limitado.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">3. Conceito: Fetichismo Tecnológico</h4>
+                <p class="mb-4">A política pública focou no objeto (o fetiche da mercadoria) e esqueceu do sujeito (o professor).</p>
             </div>
         </div>
     </div>
 
     <div id="modal-10" class="modal-overlay" onclick="if(event.target === this) closeModal('modal-10')">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-600 pb-4">
+            <div class="modal-header">
                 <h3 class="text-2xl font-serif text-purple-500">Dossiê Técnico: 2010 - Hoje</h3>
                 <button onclick="closeModal('modal-10')" class="text-slate-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button>
             </div>
-            <div class="space-y-4 text-slate-300 leading-relaxed">
-                <p><strong>BNCC (Homologada em 2017/2018)</strong><br>
-                A Competência Geral 5 determina: "Compreender, utilizar e criar tecnologias digitais de informação e comunicação de forma crítica, significativa, reflexiva e ética".</p>
-                <hr class="border-slate-700">
-                <p><strong>PIEC (Programa de Inovação Educação Conectada)</strong><br>
-                Foca na contratação de serviços de internet e formação, permitindo que escolas contratem provedores locais.</p>
-                <hr class="border-slate-700">
-                <p><strong>Crítica Contemporânea (Shoshana Zuboff):</strong><br>
-                A "Plataformização" (Google for Education, Microsoft Teams) gera uma dependência estrutural. A escola não possui mais os servidores onde estão as notas e trabalhos dos alunos; tudo está em "nuvens" estrangeiras, sujeitas a termos de uso que mudam unilateralmente.</p>
+            <div class="modal-body text-slate-300">
+                <h4 class="text-white font-bold text-lg mb-2">1. BNCC e Cultura Digital</h4>
+                <p class="mb-4">A Base Nacional Comum Curricular (homologada em 2017/18) traz a Competência Geral 5, que obriga o uso crítico da tecnologia.</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">2. O Fenômeno da Plataformização</h4>
+                <p class="mb-4">Diferente das décadas anteriores, o Estado parou de tentar produzir tecnologia. Ele agora contrata "Soluções" de Big Techs (Google Workspace, Microsoft Teams).</p>
+                
+                <h4 class="text-white font-bold text-lg mb-2">3. Risco: Capitalismo de Vigilância</h4>
+                <p class="mb-4">Segundo <strong>Shoshana Zuboff</strong>, vivemos uma era onde a experiência humana é matéria-prima gratuita para práticas comerciais ocultas. Na escola, isso significa que dados comportamentais de crianças estão sendo minerados.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-sobre" class="modal-overlay" onclick="if(event.target === this) closeModal('modal-sobre')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-2xl font-serif text-white">Sobre este Artefato</h3>
+                <button onclick="closeModal('modal-sobre')" class="text-slate-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="modal-body text-slate-300">
+                <div class="bg-slate-800 p-6 rounded-lg mb-6">
+                    <p class="mb-4">Este recurso educacional digital foi desenvolvido como requisito avaliativo da disciplina de <strong>Política Educacional e Gestão da Informática na Educação</strong>.</p>
+                    <p class="mb-4"><strong>Objetivo:</strong> Demonstrar criticamente a evolução das políticas públicas, utilizando tecnologias web modernas para criar uma narrativa interativa e não-linear.</p>
+                </div>
+                
+                <h4 class="text-white font-bold mb-2">Autoria:</h4>
+                <p class="mb-4">Jónison A. dos Santos e Diego Resende Pacheco- Mestrandos</p>
+                
+                <h4 class="text-white font-bold mb-2">Tecnologias:</h4>
+                <p class="text-sm font-mono text-slate-500">HTML5 • Tailwind CSS • Vanilla JS</p>
+                
+                <div class="mt-6 text-center pt-6 border-t border-slate-700 text-xs text-slate-500">
+                    &copy; 2025 - Todos os direitos reservados.
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="modal-sobre" class="modal-overlay" onclick="if(event.target === this) closeModal('modal-sobre')">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-600 pb-4">
-                <h3 class="text-2xl font-serif text-white">Sobre este Artefato</h3>
-                <button onclick="closeModal('modal-sobre')" class="text-slate-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button>
+    <div id="modal-quiz" class="modal-overlay" style="background: #0b1120;">
+        <div class="max-w-3xl w-full p-8 bg-academic-card rounded-2xl border border-slate-700 shadow-2xl relative">
+            
+            <button onclick="closeQuiz()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+
+            <div class="text-center mb-8">
+                <span class="text-accent-gold font-mono uppercase text-xs tracking-widest">Avaliação de Aprendizagem</span>
+                <h2 class="text-3xl font-serif text-white font-bold mt-2">Desafio de Conhecimento</h2>
+                <div class="w-full bg-slate-700 h-2 rounded-full mt-6">
+                    <div id="quiz-progress" class="bg-accent-blue h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
             </div>
-            <div class="space-y-4 text-slate-300 text-sm">
-                <p>Este recurso educacional digital foi desenvolvido como requisito avaliativo da disciplina de <strong>Política Educacional e Gestão da Informática na Educação</strong>.</p>
-                <p><strong>Objetivo:</strong> Demonstrar criticamente a evolução das políticas públicas, utilizando tecnologias web modernas para criar uma narrativa interativa e não-linear.</p>
-                <p><strong>Tecnologias:</strong> HTML5, CSS3 (Tailwind Framework) e JavaScript Vanilla.</p>
-                <p class="text-center mt-6 text-slate-500">2025 • Mestrado Profissional</p>
+
+            <div id="quiz-container">
+                </div>
+
+            <div id="quiz-result" class="hidden text-center animate-pulse">
+                <i class="fas fa-trophy text-6xl text-accent-gold mb-4"></i>
+                <h3 class="text-2xl text-white font-bold mb-2">Desafio Concluído!</h3>
+                <p id="score-text" class="text-lg text-slate-300 mb-6"></p>
+                <button onclick="closeQuiz()" class="px-6 py-3 bg-slate-600 hover:bg-slate-500 text-white rounded-lg">Voltar ao Conteúdo</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Função de Scroll Suave
+        // --- NAVEGAÇÃO SUAVE ---
         function scrollToId(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Controle dos Modais
+        // --- CONTROLE DE MODAIS (DOSSIÊS) ---
         function openModal(id) {
             const modal = document.getElementById(id);
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden'; // Impede scroll do fundo
+            if(modal) {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error("Modal não encontrado:", id);
+            }
         }
-
         function closeModal(id) {
             const modal = document.getElementById(id);
-            modal.classList.remove('open');
-            document.body.style.overflow = 'auto';
+            if(modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
         }
 
-        // Observer para a Timeline Lateral (Detecta qual seção está visível)
-        const observerOptions = {
-            root: null,
-            rootMargin: '-50% 0px -50% 0px', // Ativa quando o elemento está no meio da tela
-            threshold: 0
-        };
-
+        // --- CONTROLE DA TIMELINE LATERAL ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Remove active de todos
                     document.querySelectorAll('.timeline-dot').forEach(dot => dot.classList.remove('active'));
-                    
-                    // Adiciona active no correspondente
                     const id = entry.target.id;
-                    let dotIndex = 0;
-                    if(id === 'intro') dotIndex = 0;
-                    if(id === 'section-80') dotIndex = 1;
-                    if(id === 'section-90') dotIndex = 2;
-                    if(id === 'section-00') dotIndex = 3;
-                    if(id === 'section-10') dotIndex = 4;
-                    if(id === 'section-final') dotIndex = 5;
-
-                    document.querySelectorAll('.timeline-dot')[dotIndex].classList.add('active');
+                    const map = {
+                        'intro': 0, 'section-80': 1, 'section-90': 2, 
+                        'section-00': 3, 'section-10': 4, 'section-reflexao': 5, 'section-quiz-cta': 6
+                    };
+                    if(map[id] !== undefined) {
+                        document.querySelectorAll('.timeline-dot')[map[id]].classList.add('active');
+                    }
                 }
             });
-        }, observerOptions);
+        }, { rootMargin: '-40% 0px -40% 0px' });
 
-        // Observar todas as seções
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+        // --- ANIMAÇÃO DE ENTRADA (REVEAL) ---
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // --- LÓGICA DO QUIZ (GAMIFICAÇÃO) ---
+        const questions = [
+            {
+                q: "Qual era o principal objetivo pedagógico do uso de computadores na década de 80 (Projeto EDUCOM)?",
+                options: [
+                    "Automatizar provas e notas.",
+                    "Desenvolver o raciocínio lógico através da programação (LOGO).",
+                    "Ensinar o aluno a usar o Microsoft Office."
+                ],
+                correct: 1,
+                feedback: "Correto! Baseado em Papert, o foco era cognitivo, não instrumental."
+            },
+            {
+                q: "Qual é a principal crítica feita ao modelo de laboratórios do ProInfo (Anos 90)?",
+                options: [
+                    "Eram desconectados da sala de aula e do currículo ('Laboratório Trancado').",
+                    "Os computadores eram rápidos demais para os alunos.",
+                    "Havia excesso de professores formados na área."
+                ],
+                correct: 0,
+                feedback: "Exato! A tecnologia ficou segregada e não mudou a prática pedagógica."
+            },
+            {
+                q: "O que caracteriza a atual 'Plataformização' da educação (2020+)?",
+                options: [
+                    "O Estado produzindo seu próprio software livre.",
+                    "Dependência de Big Techs e coleta de dados (Capitalismo de Vigilância).",
+                    "Distribuição de um computador para cada aluno."
+                ],
+                correct: 1,
+                feedback: "Certo! As escolas hoje dependem de ecossistemas privados (Google/Microsoft)."
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function openQuizModal() {
+            document.getElementById('modal-quiz').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            currentQ = 0;
+            score = 0;
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function closeQuiz() {
+            document.getElementById('modal-quiz').classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQ];
+            const container = document.getElementById('quiz-container');
+            
+            // Atualiza barra de progresso
+            const progress = ((currentQ) / questions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+
+            let html = `
+                <div class="animate-fade-in-up">
+                    <h3 class="text-xl text-white font-bold mb-6">${currentQ + 1}. ${q.q}</h3>
+                    <div class="space-y-3">
+            `;
+
+            q.options.forEach((opt, index) => {
+                html += `
+                    <button onclick="answer(${index})" class="w-full text-left p-4 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 transition text-slate-300 hover:text-white group">
+                        <span class="font-bold text-accent-blue mr-2">${['A','B','C'][index]})</span> ${opt}
+                    </button>
+                `;
+            });
+
+            html += `</div><div id="q-feedback" class="mt-4 p-4 rounded font-bold hidden"></div></div>`;
+            container.innerHTML = html;
+        }
+
+        function answer(index) {
+            const q = questions[currentQ];
+            const feedbackEl = document.getElementById('q-feedback');
+            const buttons = document.querySelectorAll('#quiz-container button');
+
+            // Trava botões
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (index === q.correct) {
+                score++;
+                buttons[index].classList.remove('bg-slate-800');
+                buttons[index].classList.add('bg-emerald-900', 'border-emerald-500', 'text-white');
+                feedbackEl.innerHTML = `<i class="fas fa-check-circle"></i> ${q.feedback}`;
+                feedbackEl.className = "mt-6 p-4 rounded bg-emerald-900/50 border border-emerald-500 text-emerald-200 block animate-pulse";
+            } else {
+                buttons[index].classList.remove('bg-slate-800');
+                buttons[index].classList.add('bg-red-900', 'border-red-500', 'text-white');
+                feedbackEl.innerHTML = `<i class="fas fa-times-circle"></i> Incorreto.`;
+                feedbackEl.className = "mt-6 p-4 rounded bg-red-900/50 border border-red-500 text-red-200 block";
+            }
+
+            // Botão Próximo
+            setTimeout(() => {
+                currentQ++;
+                if (currentQ < questions.length) {
+                    renderQuestion();
+                } else {
+                    showResult();
+                }
+            }, 2500);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.classList.remove('hidden');
+            document.getElementById('quiz-progress').style.width = `100%`;
+            
+            const percentage = (score / questions.length) * 100;
+            let msg = "";
+            if(percentage === 100) msg = "Excelência Acadêmica! Você domina o conteúdo.";
+            else if(percentage >= 60) msg = "Bom trabalho! Você compreendeu os conceitos principais.";
+            else msg = "Que tal revisar os Dossiês Técnicos e tentar novamente?";
+
+            document.getElementById('score-text').innerHTML = `Você acertou <strong>${score} de ${questions.length}</strong>.<br><span class="text-sm mt-2 block text-slate-400">${msg}</span>`;
+        }
     </script>
 </body>
 </html>
